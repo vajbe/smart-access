@@ -2,16 +2,18 @@ package main
 
 import (
 	"auth-service/config"
+	"auth-service/db"
 	"auth-service/router"
-	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
 	mux := http.NewServeMux()
 	router.InitRouter(mux)
-	c := config.LoadConfig()
-	fmt.Printf("\nStarting server on: %d", c.Port)
-	portStr := fmt.Sprintf(":%d", c.Port)
-	http.ListenAndServe(portStr, mux)
+	config.LoadEnv()
+	db.InitDB()
+	port := config.GetEnv("AUTH_PORT", ":8081")
+	log.Println("🚀 Auth service running on", port)
+	log.Fatal(http.ListenAndServe(port, nil))
 }

@@ -1,28 +1,22 @@
 package config
 
 import (
-	"fmt"
+	"log"
 	"os"
-	"strconv"
+
+	"github.com/joho/godotenv"
 )
 
-type Config struct {
-	Port int
+func LoadEnv() {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Println("⚠️  No .env file found or unable to load it, using system env variables")
+	}
 }
 
-func LoadConfig() *Config {
-	port := os.Getenv("PORT")
-	if port == "" {
-		fmt.Print("\nPort variable is not set")
+func GetEnv(key, fallback string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
 	}
-
-	portInt, err := strconv.Atoi(port)
-	if err != nil {
-		fmt.Print("\nError occurred while converting port env variable - Defaulting to 8080")
-		portInt = 8080
-	}
-
-	return &Config{
-		Port: portInt,
-	}
+	return fallback
 }
