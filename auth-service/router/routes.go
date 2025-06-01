@@ -7,4 +7,6 @@ import (
 
 func InitRouter(mux *http.ServeMux) {
 	mux.HandleFunc("/healthz", handler.Health)
+	mux.HandleFunc("/login", handler.Login)
+	mux.HandleFunc("/signup", handler.SignUp)
 }
