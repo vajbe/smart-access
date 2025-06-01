@@ -6,5 +6,5 @@ import (
 )
 
 func InitRouter(mux *http.ServeMux) {
-	mux.HandleFunc("/health", handler.Health)
+	mux.HandleFunc("/healthz", handler.Health)
 }
